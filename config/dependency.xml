@@ -2,7 +2,7 @@
 <dependency version="1.0">
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-digester3</artifactId>
-  <version>3.2</version>
+  <version>3.3</version>
   <v1>
   	<v2>
   		<v31></v31>
