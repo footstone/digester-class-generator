@@ -28,9 +28,7 @@ public class ClassDefinition<T> {
 	public List<ClassDefinition<T>> children() {
 		return children;
 	}
-//	public void set(List<ClassDefinition> fields) {
-//		this.fields = fields;
-//	}
+
 	public void addChild(ClassDefinition<T> cd){
 		this.children.add(cd);
 	}
