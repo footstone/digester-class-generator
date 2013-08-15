@@ -38,6 +38,18 @@ public class GeneratorUtil {
 		return sb.toString();
 	}
 	
+	/**
+	 * @param str
+	 * @return
+	 */
+	public static String toLowerFirstCase(String str){
+		if(isBlank(str)){
+			throw new IllegalArgumentException();
+		}
+		String f = str.substring(0, 1);
+		return str.replaceFirst(f, f.toLowerCase());
+	}
+	
 	public static void main(String[] args) {
 		String str = GeneratorUtil.formatName("c_name");
 		System.out.println(str);

@@ -29,9 +29,17 @@ public class ClassGenerator {
 		
 		sb.append("package me.footstone.tools.test").append(";");
 		sb.append("\r\n").append("\r\n");
+		sb.append("import java.util.List;");
+		sb.append("\r\n");
+		sb.append("import java.util.ArrayList;");
+		sb.append("\r\n").append("\r\n");
+		
+		
+		//sb.append("\r\n").append("\r\n");
 		sb.append("public class ").append(cd.getName()).append(" { ");
 		sb.append("\r\n").append("\r\n");
 		
+		// fields
 		List<String> fields = cd.getFields();
 		for (String attr:fields){
 			sb.append("	private String ").append(attr).append(";")
@@ -50,6 +58,30 @@ public class ClassGenerator {
 			sb.append("\r\n").append("\r\n");
 		}
 		sb.append("\r\n");
+		
+		//
+		List<ClassDefinition> attrDefs = cd.getChildren();
+		if (attrDefs != null){
+			for (ClassDefinition attr:attrDefs){
+				String className = attr.getName();
+				String attrName = GeneratorUtil.toLowerFirstCase(className);
+				String attrsName = attrName+"s"; 
+				sb.append("	private List ").append(attrsName).append(" = new ArrayList();").append("\r\n");
+				
+				sb.append("	public void add").append(className).append(" (").append(className).append(" ").append(attrName).append(" ){").append("\r\n");
+				sb.append("		this.").append(attrsName).append(".add").append("(").append(attrName).append(");").append("\r\n");
+				sb.append("	}");
+				sb.append("\r\n").append("\r\n");
+				
+				
+				sb.append("	public ").append(className).append(" get").append(className).append("s (){").append("\r\n");
+				//sb.append("this.add(").append(attr.getName()).append(")");
+				sb.append("		return this.").append(attrsName).append(";").append("\r\n");
+				sb.append("	}");
+				sb.append("\r\n").append("\r\n");
+				
+			}
+		}
 		sb.append("}");
 		
 		
@@ -65,6 +97,9 @@ public class ClassGenerator {
 		cd.addField("engine_impl");
 		cd.addField("interceptor");
 		cd.addField("version");
+		
+		ClassDefinition e = new ClassDefinition("EngineImpl");
+		cd.addChild(e);
 		
 		String fileName = "D:/workspace/rule/digester-pojo-generator/src/me/footstone/tools/test";
 		ClassGenerator gen = new ClassGenerator(null);
