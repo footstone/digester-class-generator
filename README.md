@@ -8,3 +8,8 @@ Dependency Lib:
 * jdom.jar
 * xercesImpl.jar
 * xmlParserAPIs.jar
+
+Useage Demo:
+-------------
+* ‘java -cp lib/*.jar me.footstone.tools.digester.generator.ClassGenerator D:/temp me.footstone.test.cfg.xml test-cfg.xml’
+
