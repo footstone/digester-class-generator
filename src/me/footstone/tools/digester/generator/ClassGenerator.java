@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jdom.Attribute;
@@ -60,23 +61,23 @@ public class ClassGenerator {
 			dirFile.mkdirs();
 		}
 		
-		List<Element> list = element.getChildren();
-		for(Element node:list){
-			String nodeName = node.getName();
-			String fileName = GeneratorUtil.formatName(nodeName);
-			
-			String filePath = classDir + FILE_SPLIT + fileName + ".java";
-			
-			System.out.println("create:"+filePath);
-			output(filePath,node);
-			
-			List<Element> children = node.getChildren();
-			if (children!=null){
-				for (Element e:children){
-					generator(e);
-				}
+//		List<Element> list = element.getChildren();
+//		for(Element node:list){
+		String nodeName = element.getName();
+		String fileName = GeneratorUtil.formatName(nodeName);
+		
+		String filePath = classDir + FILE_SPLIT + fileName + ".java";
+		
+		System.out.println("create:"+filePath);
+		output(filePath,element);
+		
+		List<Element> children = element.getChildren();
+		if (children!=null){
+			for (Element e:children){
+				generator(e);
 			}
 		}
+	//	}
 		
 	}
 	
@@ -121,14 +122,14 @@ public class ClassGenerator {
 			.append("\r\n").append("\r\n");
 			
 			sb.append("	public void set").append(mFieldName).append("(").
-			append("String ").append(attr).append("){").append("\r\n");
-			sb.append("		this.").append(attr).append("=").append(attr).append(";").append("\r\n");
+			append("String ").append(fieldName).append("){").append("\r\n");
+			sb.append("		this.").append(fieldName).append("=").append(fieldName).append(";").append("\r\n");
 			sb.append("	}");
 			sb.append("\r\n").append("\r\n");
 			
 			sb.append("	public String get").append(mFieldName).append("(){")
 			.append("\r\n");
-			sb.append("		return this.").append(attr).append(";").append("\r\n");
+			sb.append("		return this.").append(fieldName).append(";").append("\r\n");
 			sb.append("	}");
 			sb.append("\r\n").append("\r\n");
 		}
@@ -137,8 +138,13 @@ public class ClassGenerator {
 		//
 		List<Element> children = element.getChildren();
 		if (children != null){
+			List doneList = new ArrayList();
 			for (Element child:children){
-				String childClassName = GeneratorUtil.formatName(child.getName());
+				String childName = child.getName();
+				if (doneList.contains(childName)){
+					continue;
+				}
+				String childClassName = GeneratorUtil.formatName(childName);
 				String attrName = GeneratorUtil.toLowerFirstCase(childClassName);
 				String attrsName = attrName+"s"; 
 				
@@ -150,12 +156,13 @@ public class ClassGenerator {
 				sb.append("\r\n").append("\r\n");
 				
 				
-				sb.append("	public ").append(childClassName).append(" get").append(childClassName).append("s(){").append("\r\n");
+				sb.append("	public List").append(" get").append(childClassName).append("s(){").append("\r\n");
 				//sb.append("this.add(").append(attr.getName()).append(")");
 				sb.append("		return this.").append(attrsName).append(";").append("\r\n");
 				sb.append("	}");
 				sb.append("\r\n").append("\r\n");
 				
+				doneList.add(childName);
 			}
 		}
 		sb.append("}");
@@ -187,24 +194,15 @@ public class ClassGenerator {
 		System.out.println("--------------DONE-------------");
 	}
 	
-	public static void main4(String[] args) {
-		String pkg = "me.footstone.cfg.xml";
-		System.out.println(pkg.replaceAll("\\.", "/"));
+	public static void main2(String[] args) throws JDOMException {
+		InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("rule-conf.xml");
+		SAXBuilder sb = new SAXBuilder();
+		Document doc = sb.build(input);
+		Element root = doc.getRootElement();
+		List<Attribute> attrs = root.getAttributes();
+		for(Attribute attr:attrs){
+			System.out.println(attr.getName());
+		}
 	}
 	
-	public static void main2(String[] args) throws IOException {
-//		ClassDefinition cd = new ClassDefinition(null);
-//		cd.setName("Ruledefinition");
-//		cd.addField("engine_impl");
-//		cd.addField("interceptor");
-//		cd.addField("version");
-//		
-//		ClassDefinition e = new ClassDefinition("EngineImpl");
-//		cd.addChild(e);
-//		
-//		String fileName = "D:/workspace/rule/digester-class-generator/src/me/footstone/tools/test";
-//		ClassGenerator gen = new ClassGenerator(null);
-//		gen.output(fileName+"/"+cd.getName()+".java", cd);
-	}
-
 }
