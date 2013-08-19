@@ -1,7 +1,7 @@
 digester-class-generator
 ========================
 
-help generaoring class for apache digester
+help generaoring class for apache digester.
 
 Dependency Lib:
 -------------
