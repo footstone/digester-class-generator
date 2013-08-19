@@ -9,7 +9,7 @@ Dependency Lib:
 * xercesImpl.jar
 * xmlParserAPIs.jar
 
-Useage Demo:
+Usage Demo:
 -------------
-* ‘java -cp lib/*.jar me.footstone.tools.digester.generator.ClassGenerator D:/temp me.footstone.test.cfg.xml test-cfg.xml’
+* `java -cp lib/*.jar me.footstone.tools.digester.generator.ClassGenerator D:/temp me.footstone.test.cfg.xml test-cfg.xml`
 
