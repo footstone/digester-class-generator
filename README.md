@@ -5,6 +5,6 @@ help generaoring class for apache digester
 
 Dependency Lib:
 -------------
-jdom.jar
-xercesImpl.jar
-xmlParserAPIs.jar
+* jdom.jar
+* xercesImpl.jar
+* xmlParserAPIs.jar
